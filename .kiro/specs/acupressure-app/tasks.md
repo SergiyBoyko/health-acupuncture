@@ -12,10 +12,13 @@
 ---
 
 - [ ] **1. Середовище і каркас**
-  - [ ] 1.1 Встановити Flutter через `fvm install stable`, зафіксувати версію (`fvm use`, `.fvmrc`)
-  - [ ] 1.2 Створити проєкт `app/` (`flutter create --platforms=ios,android,web --org com.example`), додати його артефакти в `.gitignore`
-  - [ ] 1.3 Додати залежності: `flutter_riverpod`, `go_router`, `shared_preferences`, `flutter_localizations`, `intl`; dev: `flutter_lints`
-  - [ ] 1.4 Увімкнути суворий аналіз (`analysis_options.yaml`), переконатись, що порожній застосунок збирається для iOS-симулятора та Android
+  - [x] 1.1 Закріпити наявний Flutter 3.44.0 з кешу `fvm` (`fvm use 3.44.0`, `app/.fvmrc`)
+  - [x] 1.2 Створити проєкт `app/` (`flutter create --platforms=ios,android,web --org com.example`); артефакти покриває `app/.gitignore`
+  - [x] 1.3 Додати залежності: `flutter_riverpod`, `go_router`, `shared_preferences`, `flutter_localizations`, `intl`; dev: `flutter_lints`
+  - [x] 1.4 Увімкнути суворий аналіз (`analysis_options.yaml`); `flutter analyze` і `flutter test` зелені
+  - [ ] 1.5 Перевірити збірки для iOS-симулятора та Android — **відкладено на прохання власника**.
+    Перед цим: встановити CocoaPods (потрібен плагіну `shared_preferences` на iOS), додати Android cmdline-tools і прийняти ліцензії
+    (`flutter doctor --android-licenses`)
   - _Вимоги: R12.5_
 
 - [ ] **2. Конвеєр даних**
