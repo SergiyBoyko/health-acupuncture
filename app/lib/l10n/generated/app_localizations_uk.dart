@@ -397,4 +397,78 @@ class AppLocalizationsUk extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get settings => 'Налаштування';
+
+  @override
+  String get theme => 'Тема';
+
+  @override
+  String get themeSystem => 'Як у системі';
+
+  @override
+  String get themeLight => 'Світла';
+
+  @override
+  String get themeDark => 'Темна';
+
+  @override
+  String get aboutSource => 'Про джерело і застереження';
+
+  @override
+  String get aboutTitle => 'Про джерело';
+
+  @override
+  String get disclaimerTitle => 'Перш ніж почати';
+
+  @override
+  String get disclaimerHeading => 'Застереження';
+
+  @override
+  String get disclaimerSource =>
+      'Цей застосунок відтворює текст і малюнки брошури про точки надавлювання, виданої 1992 року. Він показує матеріал джерела як є і нічого не додає від себе.';
+
+  @override
+  String get disclaimerNotAdvice =>
+      'Це не медична порада. Описані методи не перевірені сучасною медициною і не замінюють звернення до лікаря.';
+
+  @override
+  String get disclaimerEmergency =>
+      'Якщо у вас гострий біль, травма або стан, що загрожує життю, зверніться по медичну допомогу.';
+
+  @override
+  String get disclaimerAccept => 'Я прочитав(ла), продовжити';
+
+  @override
+  String get sourceHeading => 'Джерело';
+
+  @override
+  String get sourceTranscription =>
+      'Текст транскрибовано вручну зі скану, тож можливі помилки. Біля кожної точки вказано сторінку джерела, щоб можна було звіритись.';
+
+  @override
+  String sourceContents(String points, String symptoms, String terms) {
+    return 'У довіднику: $points, $symptoms, $terms.';
+  }
+
+  @override
+  String symptomEntriesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count запису покажчика',
+      many: '$count записів покажчика',
+      few: '$count записи покажчика',
+      one: '$count запис покажчика',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get privacyHeading => 'Приватність';
+
+  @override
+  String get privacyMessage =>
+      'Історія пошуку, історія переглядів і обране зберігаються лише на цьому пристрої. Застосунок працює без мережі й не збирає жодних даних.';
 }

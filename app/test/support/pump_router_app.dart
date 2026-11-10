@@ -3,6 +3,7 @@ import 'package:acupoints/core/router/app_router.dart';
 import 'package:acupoints/data/content_repository.dart';
 import 'package:acupoints/data/providers.dart';
 import 'package:acupoints/data/user/user_providers.dart';
+import 'package:acupoints/data/user/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,6 +24,7 @@ extension PumpRouterApp on WidgetTester {
     Brightness brightness = Brightness.light,
     Map<String, Object>? stored,
     DateTime Function()? now,
+    bool firstLaunch = false,
   }) async {
     // Типовий телефон замість стандартного для тестів 800×600.
     view.physicalSize = size;
@@ -34,8 +36,12 @@ extension PumpRouterApp on WidgetTester {
 
     // Без [stored] дані користувача лишаються від попереднього запуску в
     // цьому ж тесті — так перевіряється збереження між перезапусками.
-    if (stored != null || !_preferencesReady) {
-      SharedPreferences.setMockInitialValues(stored ?? {});
+    if (stored != null || firstLaunch || !_preferencesReady) {
+      SharedPreferences.setMockInitialValues({
+        // Застереження першого запуску за замовчуванням уже підтверджено.
+        if (!firstLaunch) UserStore.disclaimerKey: true,
+        ...?stored,
+      });
       _preferencesReady = true;
       addTearDown(() => _preferencesReady = false);
     }

@@ -729,6 +729,120 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'{count, plural, one{{count} термін} few{{count} терміни} many{{count} термінів} other{{count} терміна}}'**
   String termsCount(int count);
+
+  /// No description provided for @settings.
+  ///
+  /// In uk, this message translates to:
+  /// **'Налаштування'**
+  String get settings;
+
+  /// No description provided for @theme.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тема'**
+  String get theme;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In uk, this message translates to:
+  /// **'Як у системі'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In uk, this message translates to:
+  /// **'Світла'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In uk, this message translates to:
+  /// **'Темна'**
+  String get themeDark;
+
+  /// No description provided for @aboutSource.
+  ///
+  /// In uk, this message translates to:
+  /// **'Про джерело і застереження'**
+  String get aboutSource;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Про джерело'**
+  String get aboutTitle;
+
+  /// No description provided for @disclaimerTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Перш ніж почати'**
+  String get disclaimerTitle;
+
+  /// No description provided for @disclaimerHeading.
+  ///
+  /// In uk, this message translates to:
+  /// **'Застереження'**
+  String get disclaimerHeading;
+
+  /// No description provided for @disclaimerSource.
+  ///
+  /// In uk, this message translates to:
+  /// **'Цей застосунок відтворює текст і малюнки брошури про точки надавлювання, виданої 1992 року. Він показує матеріал джерела як є і нічого не додає від себе.'**
+  String get disclaimerSource;
+
+  /// No description provided for @disclaimerNotAdvice.
+  ///
+  /// In uk, this message translates to:
+  /// **'Це не медична порада. Описані методи не перевірені сучасною медициною і не замінюють звернення до лікаря.'**
+  String get disclaimerNotAdvice;
+
+  /// No description provided for @disclaimerEmergency.
+  ///
+  /// In uk, this message translates to:
+  /// **'Якщо у вас гострий біль, травма або стан, що загрожує життю, зверніться по медичну допомогу.'**
+  String get disclaimerEmergency;
+
+  /// No description provided for @disclaimerAccept.
+  ///
+  /// In uk, this message translates to:
+  /// **'Я прочитав(ла), продовжити'**
+  String get disclaimerAccept;
+
+  /// No description provided for @sourceHeading.
+  ///
+  /// In uk, this message translates to:
+  /// **'Джерело'**
+  String get sourceHeading;
+
+  /// No description provided for @sourceTranscription.
+  ///
+  /// In uk, this message translates to:
+  /// **'Текст транскрибовано вручну зі скану, тож можливі помилки. Біля кожної точки вказано сторінку джерела, щоб можна було звіритись.'**
+  String get sourceTranscription;
+
+  /// No description provided for @sourceContents.
+  ///
+  /// In uk, this message translates to:
+  /// **'У довіднику: {points}, {symptoms}, {terms}.'**
+  String sourceContents(String points, String symptoms, String terms);
+
+  /// No description provided for @symptomEntriesCount.
+  ///
+  /// In uk, this message translates to:
+  /// **'{count, plural, one{{count} запис покажчика} few{{count} записи покажчика} many{{count} записів покажчика} other{{count} запису покажчика}}'**
+  String symptomEntriesCount(int count);
+
+  /// No description provided for @privacyHeading.
+  ///
+  /// In uk, this message translates to:
+  /// **'Приватність'**
+  String get privacyHeading;
+
+  /// No description provided for @privacyMessage.
+  ///
+  /// In uk, this message translates to:
+  /// **'Історія пошуку, історія переглядів і обране зберігаються лише на цьому пристрої. Застосунок працює без мережі й не збирає жодних даних.'**
+  String get privacyMessage;
 }
 
 class _AppLocalizationsDelegate

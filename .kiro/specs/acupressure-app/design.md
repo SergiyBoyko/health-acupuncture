@@ -79,7 +79,7 @@ Seed — приглушений зелено-бірюзовий `#2F6F62`: сп�
 | `/symptom-group/:id` | `/body/symptom-group/:id` | Група симптомів (Глаза, Голова, Сердце, Боль) | є |
 | `/glossary` | `/body/glossary` | Словник | є |
 | `/search?q=` | `/body/search?q=` | Пошук | є |
-| `/settings` · `/about` | — | Налаштування · Застереження | блок 13 |
+| `/settings` · `/about` | `/body/settings` · `/body/about` | Налаштування · Про джерело і застереження | є |
 
 Перехід до спільного екрана — `context.openPoint(code)` / `context.openSegment(id)` (`core/router/app_tab.dart`):
 шлях будується від поточної вкладки й відкривається через `push`. Невідома адреса, код чи сегмент → екран «Не знайдено».
@@ -253,7 +253,8 @@ Meta      { legend[], somaticCodes[], unresolvedCodes[], intro { sections[], fig
 searchHistory : [ { query, at } ]            ≤ 20
 viewHistory   : [ { type, id, at } ]         ≤ 50, type ∈ point|segment|symptom|term
 favorites     : [ { code, at } ]
-settings      : { themeMode, disclaimerAccepted }
+themeMode     : system | light | dark
+disclaimerAccepted : bool           // застереження першого запуску
 ```
 
 ### 5.3 Пошук

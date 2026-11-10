@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/json_utils.dart';
 import 'user_models.dart';
 
-/// Локальні дані користувача: історія пошуку, історія переглядів, обране.
+/// Локальні дані користувача: історія пошуку, історія переглядів, обране,
+/// налаштування.
 ///
 /// Усе зберігається лише на пристрої. Кожен метод зміни повертає новий
 /// список і записує його; пошкоджені дані тихо скидаються до порожніх.
@@ -17,6 +18,8 @@ class UserStore {
   static const String searchKey = 'search_history_v1';
   static const String viewKey = 'view_history_v1';
   static const String favoritesKey = 'favorites_v1';
+  static const String themeKey = 'theme_mode_v1';
+  static const String disclaimerKey = 'disclaimer_accepted_v1';
 
   static const int maxSearches = 20;
   static const int maxViews = 50;
@@ -86,6 +89,26 @@ class UserStore {
         : [FavoriteEntry(code: code, at: _now()), ...current];
     _save(favoritesKey, next.map((e) => e.toJson()));
     return next;
+  }
+
+  // ----- налаштування -----
+
+  /// Назва теми: `system`, `light` або `dark`. Невідоме значення → `system`.
+  String loadThemeName() {
+    const known = {'system', 'light', 'dark'};
+    final Object? raw = _prefs.get(themeKey);
+    return raw is String && known.contains(raw) ? raw : 'system';
+  }
+
+  void saveThemeName(String name) {
+    unawaited(_prefs.setString(themeKey, name));
+  }
+
+  /// Чи підтвердив користувач застереження першого запуску.
+  bool loadDisclaimerAccepted() => _prefs.get(disclaimerKey) == true;
+
+  void saveDisclaimerAccepted() {
+    unawaited(_prefs.setBool(disclaimerKey, true));
   }
 
   // ----- зберігання -----

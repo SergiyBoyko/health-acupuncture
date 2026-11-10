@@ -63,6 +63,10 @@ extension AppNavigation on BuildContext {
     ).toString(),
   );
 
+  void openSettings() => push(currentTab.child('settings'));
+
+  void openAbout() => push(currentTab.child('about'));
+
   /// Пошук; з [query] — одразу з результатами.
   void openSearch({String? query}) => push(
     Uri(

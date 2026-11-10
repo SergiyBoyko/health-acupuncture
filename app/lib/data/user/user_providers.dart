@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show ThemeMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,4 +73,35 @@ final favoritesProvider =
 /// Коди обраних точок — для позначок у списках.
 final favoriteCodesProvider = Provider<Set<String>>(
   (ref) => {for (final entry in ref.watch(favoritesProvider)) entry.code},
+);
+
+class ThemeModeNotifier extends Notifier<ThemeMode> {
+  @override
+  ThemeMode build() =>
+      ThemeMode.values.byName(ref.watch(userStoreProvider).loadThemeName());
+
+  void set(ThemeMode mode) {
+    ref.read(userStoreProvider).saveThemeName(mode.name);
+    state = mode;
+  }
+}
+
+/// Обрана тема: системна, світла або темна.
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
+  ThemeModeNotifier.new,
+);
+
+class DisclaimerNotifier extends Notifier<bool> {
+  @override
+  bool build() => ref.watch(userStoreProvider).loadDisclaimerAccepted();
+
+  void accept() {
+    ref.read(userStoreProvider).saveDisclaimerAccepted();
+    state = true;
+  }
+}
+
+/// Чи підтверджено застереження першого запуску.
+final disclaimerAcceptedProvider = NotifierProvider<DisclaimerNotifier, bool>(
+  DisclaimerNotifier.new,
 );

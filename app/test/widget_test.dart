@@ -4,6 +4,7 @@ import 'package:acupoints/app.dart';
 import 'package:acupoints/data/content_repository.dart';
 import 'package:acupoints/data/providers.dart';
 import 'package:acupoints/data/user/user_providers.dart';
+import 'package:acupoints/data/user/user_store.dart';
 import 'package:acupoints/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ void main() {
   late SharedPreferences preferences;
 
   setUp(() async {
-    SharedPreferences.setMockInitialValues({});
+    SharedPreferences.setMockInitialValues({UserStore.disclaimerKey: true});
     preferences = await SharedPreferences.getInstance();
   });
 

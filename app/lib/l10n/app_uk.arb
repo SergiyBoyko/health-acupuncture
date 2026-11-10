@@ -248,5 +248,44 @@
         "type": "int"
       }
     }
-  }
+  },
+  "settings": "Налаштування",
+  "theme": "Тема",
+  "themeSystem": "Як у системі",
+  "themeLight": "Світла",
+  "themeDark": "Темна",
+  "aboutSource": "Про джерело і застереження",
+  "aboutTitle": "Про джерело",
+  "disclaimerTitle": "Перш ніж почати",
+  "disclaimerHeading": "Застереження",
+  "disclaimerSource": "Цей застосунок відтворює текст і малюнки брошури про точки надавлювання, виданої 1992 року. Він показує матеріал джерела як є і нічого не додає від себе.",
+  "disclaimerNotAdvice": "Це не медична порада. Описані методи не перевірені сучасною медициною і не замінюють звернення до лікаря.",
+  "disclaimerEmergency": "Якщо у вас гострий біль, травма або стан, що загрожує життю, зверніться по медичну допомогу.",
+  "disclaimerAccept": "Я прочитав(ла), продовжити",
+  "sourceHeading": "Джерело",
+  "sourceTranscription": "Текст транскрибовано вручну зі скану, тож можливі помилки. Біля кожної точки вказано сторінку джерела, щоб можна було звіритись.",
+  "sourceContents": "У довіднику: {points}, {symptoms}, {terms}.",
+  "@sourceContents": {
+    "placeholders": {
+      "points": {
+        "type": "String"
+      },
+      "symptoms": {
+        "type": "String"
+      },
+      "terms": {
+        "type": "String"
+      }
+    }
+  },
+  "symptomEntriesCount": "{count, plural, one{{count} запис покажчика} few{{count} записи покажчика} many{{count} записів покажчика} other{{count} запису покажчика}}",
+  "@symptomEntriesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "privacyHeading": "Приватність",
+  "privacyMessage": "Історія пошуку, історія переглядів і обране зберігаються лише на цьому пристрої. Застосунок працює без мережі й не збирає жодних даних."
 }
