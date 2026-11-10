@@ -41,6 +41,42 @@ extension AppNavigation on BuildContext {
   void openPoint(String code) =>
       push(currentTab.child('point/${PointCodeUrl.encode(code)}'));
 
+  /// Замінює поточну точку іншою (перехід «попередня / наступна»), щоб
+  /// гортання сегмента не нарощувало стек.
+  void replacePoint(String code) =>
+      pushReplacement(currentTab.child('point/${PointCodeUrl.encode(code)}'));
+
   void openSegment(String segmentId) =>
       push(currentTab.child('segment/$segmentId'));
+
+  void openSymptom(String symptomId) =>
+      push(currentTab.child('symptom/$symptomId'));
+
+  void openSymptomGroup(String groupId) =>
+      push(currentTab.child('symptom-group/$groupId'));
+
+  /// Словник; з [term] — одразу відфільтрований і розгорнутий на ньому.
+  void openGlossary({String? term}) => push(
+    Uri(
+      path: currentTab.child('glossary'),
+      queryParameters: term == null ? null : {'q': term},
+    ).toString(),
+  );
+
+  /// Пошук; з [query] — одразу з результатами.
+  void openSearch({String? query}) => push(
+    Uri(
+      path: currentTab.child('search'),
+      queryParameters: query == null ? null : {'q': query},
+    ).toString(),
+  );
+
+  /// Малюнок точки на весь екран (гортання між малюнками цієї точки).
+  void openPointImage(String code, String figureId) => push(
+    currentTab.child('point/${PointCodeUrl.encode(code)}/image/$figureId'),
+  );
+
+  /// Зведена схема сегмента на весь екран.
+  void openSegmentImage(String segmentId, String figureId) =>
+      push(currentTab.child('segment/$segmentId/image/$figureId'));
 }

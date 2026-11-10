@@ -6,6 +6,7 @@ import '../l10n.dart';
 import '../theme/app_theme.dart';
 import 'code_badge.dart';
 import 'paper_image.dart';
+import 'somatic_tag.dart';
 
 /// Рядок точки в списках: мініатюра, код, заголовок, позначки.
 class PointListTile extends StatelessWidget {
@@ -14,6 +15,7 @@ class PointListTile extends StatelessWidget {
     this.figure,
     this.subtitle,
     this.isFavorite = false,
+    this.trailing,
     this.onTap,
     this.onLongPress,
     super.key,
@@ -29,6 +31,9 @@ class PointListTile extends StatelessWidget {
   /// Додатковий рядок під заголовком (сторона тіла, фрагмент пошуку).
   final String? subtitle;
   final bool isFavorite;
+
+  /// Дія праворуч (наприклад, кнопка «прибрати з обраного»).
+  final Widget? trailing;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
@@ -88,14 +93,16 @@ class PointListTile extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     if (point.somatic)
-                      Padding(
-                        padding: const EdgeInsets.only(top: AppSpacing.xs),
-                        child: _SomaticTag(label: l10n.somatic),
+                      const Padding(
+                        padding: EdgeInsets.only(top: AppSpacing.xs),
+                        child: SomaticTag(),
                       ),
                   ],
                 ),
               ),
-              if (isFavorite) ...[
+              if (trailing != null)
+                trailing!
+              else if (isFavorite) ...[
                 const SizedBox(width: AppSpacing.sm),
                 Icon(
                   Icons.star,
@@ -106,30 +113,6 @@ class PointListTile extends StatelessWidget {
               ],
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SomaticTag extends StatelessWidget {
-  const _SomaticTag({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.tertiaryContainer,
-        borderRadius: BorderRadius.circular(AppRadius.chip / 2),
-      ),
-      child: Text(
-        label,
-        style: theme.textTheme.labelSmall?.copyWith(
-          color: theme.colorScheme.onTertiaryContainer,
         ),
       ),
     );
