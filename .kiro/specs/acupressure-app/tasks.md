@@ -16,9 +16,10 @@
   - [x] 1.2 Створити проєкт `app/` (`flutter create --platforms=ios,android,web --org com.example`); артефакти покриває `app/.gitignore`
   - [x] 1.3 Додати залежності: `flutter_riverpod`, `go_router`, `shared_preferences`, `flutter_localizations`, `intl`; dev: `flutter_lints`
   - [x] 1.4 Увімкнути суворий аналіз (`analysis_options.yaml`); `flutter analyze` і `flutter test` зелені
-  - [ ] 1.5 Перевірити збірки для iOS-симулятора та Android — **відкладено на прохання власника**.
-    Перед цим: встановити CocoaPods (потрібен плагіну `shared_preferences` на iOS), додати Android cmdline-tools і прийняти ліцензії
-    (`flutter doctor --android-licenses`)
+  - [ ] 1.5 Перевірити збірки для iOS та Android.
+    iOS: release-збірка з підписом зібрана, встановлена й запущена на iPhone (iOS 26.6) — CocoaPods не знадобився,
+    плагіни підключаються через Swift Package Manager.
+    Android: **не перевірено**; потрібні cmdline-tools і прийняті ліцензії (`flutter doctor --android-licenses`)
   - _Вимоги: R12.5_
 
 - [x] **2. Конвеєр даних**

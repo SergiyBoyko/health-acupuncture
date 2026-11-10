@@ -58,8 +58,15 @@ fvm flutter build apk
 fvm flutter build ios
 ```
 
-Для iOS потрібен CocoaPods (його використовує плагін `shared_preferences`), для Android — прийняті ліцензії SDK
-(`fvm flutter doctor --android-licenses`).
+CocoaPods для iOS не потрібен: плагіни підключаються через Swift Package Manager. Для Android потрібні прийняті
+ліцензії SDK (`fvm flutter doctor --android-licenses`).
+
+Встановлення release-збірки на підключений iPhone:
+
+```bash
+fvm flutter build ios --release
+xcrun devicectl device install app --device <id> build/ios/iphoneos/Runner.app
+```
 
 ## Вміст
 
