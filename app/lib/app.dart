@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'core/widgets/content_gate.dart';
+
 /// Кореневий віджет застосунку.
 ///
 /// Тема, маршрутизація та локалізація підключаються в наступних блоках плану;
-/// поки що це каркас, який підтверджує, що проєкт збирається.
+/// поки що застосунок завантажує вміст і показує його обсяг.
 class AcupointsApp extends StatelessWidget {
   const AcupointsApp({super.key});
 
@@ -14,17 +16,33 @@ class AcupointsApp extends StatelessWidget {
     return MaterialApp(
       title: 'Точки',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
-      ),
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: seedColor)),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: seedColor,
           brightness: Brightness.dark,
         ),
       ),
-      home: const Scaffold(
-        body: Center(child: Text('Точки надавлювання')),
+      home: ContentGate(
+        builder: (context, repository) => Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Точки надавлювання',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Сегментів: ${repository.segments.length} · '
+                  'точок: ${repository.points.length} · '
+                  'симптомів: ${repository.symptoms.length}',
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
