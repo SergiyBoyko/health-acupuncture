@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'content_repository.dart';
+import 'search_index.dart';
 
 /// Вміст довідника. Завантажується з ресурсів один раз.
 ///
@@ -17,4 +18,9 @@ final contentRepositoryProvider = FutureProvider<ContentRepository>(
 /// Синхронний: до екранів справа доходить лише після успішного завантаження.
 final repositoryProvider = Provider<ContentRepository>(
   (ref) => ref.watch(contentRepositoryProvider).requireValue,
+);
+
+/// Пошуковий індекс. Будується один раз після завантаження вмісту.
+final searchIndexProvider = Provider<SearchIndex>(
+  (ref) => SearchIndex(ref.watch(repositoryProvider)),
 );
