@@ -31,5 +31,23 @@
   },
   "somatic": "Соматична",
   "inFavorites": "В обраному",
-  "imageUnavailable": "Малюнок недоступний"
+  "imageUnavailable": "Малюнок недоступний",
+  "tabHome": "Головна",
+  "tabBody": "Тіло",
+  "tabSymptoms": "Симптоми",
+  "tabSaved": "Збережене",
+  "bodyTitle": "Частини тіла",
+  "notFoundTitle": "Сторінку не знайдено",
+  "notFoundMessage": "Такої точки або розділу в довіднику немає.",
+  "goHome": "На головну",
+  "sectionInProgress": "Розділ ще в роботі",
+  "relatedPoints": "Пов'язані точки",
+  "sourcePage": "стор. {page}",
+  "@sourcePage": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  }
 }

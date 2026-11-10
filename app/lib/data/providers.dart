@@ -11,3 +11,10 @@ final contentRepositoryProvider = FutureProvider<ContentRepository>(
   (ref) => ContentRepository.load(rootBundle),
   retry: (retryCount, error) => null,
 );
+
+/// Завантажений вміст для екранів під `ContentGate`.
+///
+/// Синхронний: до екранів справа доходить лише після успішного завантаження.
+final repositoryProvider = Provider<ContentRepository>(
+  (ref) => ref.watch(contentRepositoryProvider).requireValue,
+);

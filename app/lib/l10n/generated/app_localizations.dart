@@ -159,6 +159,72 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Малюнок недоступний'**
   String get imageUnavailable;
+
+  /// No description provided for @tabHome.
+  ///
+  /// In uk, this message translates to:
+  /// **'Головна'**
+  String get tabHome;
+
+  /// No description provided for @tabBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тіло'**
+  String get tabBody;
+
+  /// No description provided for @tabSymptoms.
+  ///
+  /// In uk, this message translates to:
+  /// **'Симптоми'**
+  String get tabSymptoms;
+
+  /// No description provided for @tabSaved.
+  ///
+  /// In uk, this message translates to:
+  /// **'Збережене'**
+  String get tabSaved;
+
+  /// No description provided for @bodyTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Частини тіла'**
+  String get bodyTitle;
+
+  /// No description provided for @notFoundTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Сторінку не знайдено'**
+  String get notFoundTitle;
+
+  /// No description provided for @notFoundMessage.
+  ///
+  /// In uk, this message translates to:
+  /// **'Такої точки або розділу в довіднику немає.'**
+  String get notFoundMessage;
+
+  /// No description provided for @goHome.
+  ///
+  /// In uk, this message translates to:
+  /// **'На головну'**
+  String get goHome;
+
+  /// No description provided for @sectionInProgress.
+  ///
+  /// In uk, this message translates to:
+  /// **'Розділ ще в роботі'**
+  String get sectionInProgress;
+
+  /// No description provided for @relatedPoints.
+  ///
+  /// In uk, this message translates to:
+  /// **'Пов\'язані точки'**
+  String get relatedPoints;
+
+  /// No description provided for @sourcePage.
+  ///
+  /// In uk, this message translates to:
+  /// **'стор. {page}'**
+  String sourcePage(int page);
 }
 
 class _AppLocalizationsDelegate

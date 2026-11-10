@@ -55,4 +55,39 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get imageUnavailable => 'Малюнок недоступний';
+
+  @override
+  String get tabHome => 'Головна';
+
+  @override
+  String get tabBody => 'Тіло';
+
+  @override
+  String get tabSymptoms => 'Симптоми';
+
+  @override
+  String get tabSaved => 'Збережене';
+
+  @override
+  String get bodyTitle => 'Частини тіла';
+
+  @override
+  String get notFoundTitle => 'Сторінку не знайдено';
+
+  @override
+  String get notFoundMessage => 'Такої точки або розділу в довіднику немає.';
+
+  @override
+  String get goHome => 'На головну';
+
+  @override
+  String get sectionInProgress => 'Розділ ще в роботі';
+
+  @override
+  String get relatedPoints => 'Пов\'язані точки';
+
+  @override
+  String sourcePage(int page) {
+    return 'стор. $page';
+  }
 }

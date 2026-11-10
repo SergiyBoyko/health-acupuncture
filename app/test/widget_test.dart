@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:acupoints/app.dart';
 import 'package:acupoints/data/content_repository.dart';
 import 'package:acupoints/data/providers.dart';
+import 'package:acupoints/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,26 +16,26 @@ void main() {
     child: const AcupointsApp(),
   );
 
-  testWidgets('показує вміст після завантаження', (tester) async {
+  testWidgets('показує застосунок після завантаження вмісту', (tester) async {
     final repository = loadTestContent();
     await tester.pumpWidget(app(() async => repository));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.text('Точки надавлювання'), findsOneWidget);
-    expect(find.text('119 точок'), findsOneWidget);
+    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.byType(NavigationBar), findsOneWidget);
   });
 
   testWidgets('показує індикатор, поки вміст завантажується', (tester) async {
     final completer = Completer<ContentRepository>();
     await tester.pumpWidget(app(() => completer.future));
+    await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    expect(find.text('Точки надавлювання'), findsNothing);
+    expect(find.byType(HomeScreen), findsNothing);
 
     completer.complete(loadTestContent());
-    await tester.pump();
-    await tester.pump();
-    expect(find.text('Точки надавлювання'), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(find.byType(HomeScreen), findsOneWidget);
   });
 
   testWidgets('показує помилку і дає спробувати ще', (tester) async {
@@ -47,15 +48,15 @@ void main() {
         return repository;
       }),
     );
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(find.text('Не вдалося відкрити довідник'), findsOneWidget);
+    expect(find.byType(NavigationBar), findsNothing);
 
     await tester.tap(find.text('Спробувати ще'));
-    await tester.pump();
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(attempts, 2);
-    expect(find.text('Точки надавлювання'), findsOneWidget);
+    expect(find.byType(HomeScreen), findsOneWidget);
   });
 }

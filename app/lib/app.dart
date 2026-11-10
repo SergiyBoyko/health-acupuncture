@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/l10n.dart';
+import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/widgets/content_gate.dart';
 
-/// Кореневий віджет застосунку.
+/// Кореневий віджет застосунку: тема, локалізація, маршрутизація.
 ///
-/// Маршрутизація підключається в наступному блоці плану; поки що застосунок
-/// завантажує вміст і показує його обсяг.
-class AcupointsApp extends StatelessWidget {
+/// Екрани показуються лише після завантаження вмісту довідника.
+class AcupointsApp extends ConsumerWidget {
   const AcupointsApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp.router(
+      routerConfig: ref.watch(routerProvider),
       onGenerateTitle: (context) => context.l10n.appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
@@ -21,23 +23,8 @@ class AcupointsApp extends StatelessWidget {
       locale: const Locale('uk'),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: ContentGate(
-        builder: (context, repository) => Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  context.l10n.appTitle,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                Text(context.l10n.pointsCount(repository.points.length)),
-              ],
-            ),
-          ),
-        ),
-      ),
+      builder: (context, child) =>
+          ContentGate(builder: (context, repository) => child!),
     );
   }
 }
