@@ -49,5 +49,204 @@
         "type": "int"
       }
     }
+  },
+  "segmentSchemas": "Зведені схеми",
+  "segmentFilterHint": "Код або слово",
+  "clearFilter": "Очистити фільтр",
+  "orderLabel": "Порядок точок",
+  "orderBook": "Як у книзі",
+  "orderCode": "За кодом",
+  "noMatchesTitle": "Нічого не знайдено",
+  "segmentNoMatchesMessage": "У цьому розділі немає точок за запитом «{query}».",
+  "@segmentNoMatchesMessage": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "sourcePages": "стор. {pages}",
+  "@sourcePages": {
+    "placeholders": {
+      "pages": {
+        "type": "String"
+      }
+    }
+  },
+  "pointDescription": "Опис",
+  "pointSymptoms": "Симптоми",
+  "showMoreSymptoms": "Ще {count}",
+  "@showMoreSymptoms": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "handwrittenNotes": "Рукописні нотатки власника",
+  "transcriptionNotes": "Примітки транскрипції",
+  "figureCounter": "{index} з {total}",
+  "@figureCounter": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "figureOverview": "зведена схема",
+  "figureDetail": "малюнок біля опису",
+  "previousPoint": "Попередня точка",
+  "nextPoint": "Наступна точка",
+  "close": "Закрити",
+  "pointsOnFigure": "Точки на малюнку",
+  "openFullscreen": "Відкрити на весь екран",
+  "symptomFilterHint": "Хвороба або орган",
+  "symptomNoMatchesMessage": "У покажчику немає записів за запитом «{query}».",
+  "@symptomNoMatchesMessage": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "subtermsCount": "{count, plural, one{{count} підтема} few{{count} підтеми} many{{count} підтем} other{{count} підтеми}}",
+  "@subtermsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "jumpToLetter": "Перейти до літери {letter}",
+  "@jumpToLetter": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
+  "handwrittenEntry": "Дописано від руки",
+  "handwrittenEntryMessage": "Цього рядка немає в друкованому покажчику — його дописав власник брошури.",
+  "legend": "Позначення",
+  "legendTitle": "Позначення в покажчику",
+  "legendSuffixes": "Літери M і B у кодах (2M, 2B) — частина назви точки. «MB» після числа означає пару: 10MB — це 10M і 10B.",
+  "somaticPoints": "Соматичні точки",
+  "somaticPointsMessage": "Діють на весь організм.",
+  "glossary": "Словник",
+  "glossaryFilterHint": "Термін",
+  "glossaryNoMatchesMessage": "У словнику немає термінів за запитом «{query}».",
+  "@glossaryNoMatchesMessage": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "sideLeft": "ліва сторона",
+  "sideRight": "права сторона",
+  "sideBoth": "ліва і права сторони",
+  "pairedPoints": "парні точки",
+  "pressTogether": "Натискати разом",
+  "alternative": "або",
+  "unknownCodeMessage": "Точки з таким кодом у книзі немає",
+  "asPrinted": "У книзі",
+  "noPointsForSymptom": "Для цього запису в книзі не вказано точок.",
+  "search": "Пошук",
+  "searchHint": "Код, симптом або слово",
+  "clearSearch": "Очистити запит",
+  "searchPromptTitle": "Що шукаємо?",
+  "searchPromptMessage": "Код точки, наприклад 12M, симптом або слово з опису.",
+  "resultsPoints": "Точки · {count}",
+  "@resultsPoints": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultsSymptoms": "Симптоми · {count}",
+  "@resultsSymptoms": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultsGlossary": "Словник · {count}",
+  "@resultsGlossary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchNoResultsMessage": "За запитом «{query}» нічого немає. Спробуйте інше слово або знайдіть симптом у покажчику.",
+  "@searchNoResultsMessage": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "openSymptoms": "Відкрити покажчик симптомів",
+  "recentSearches": "Останні запити",
+  "clear": "Очистити",
+  "removeSearch": "Видалити запит «{query}»",
+  "@removeSearch": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "clearSearchesTitle": "Очистити останні запити?",
+  "clearSearchesMessage": "Усі збережені запити буде видалено з цього пристрою.",
+  "cancel": "Скасувати",
+  "addToFavorites": "Додати в обране",
+  "removeFromFavorites": "Прибрати з обраного",
+  "addedToFavorites": "Точку {code} додано в обране",
+  "@addedToFavorites": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromFavorites": "Точку {code} прибрано з обраного",
+  "@removedFromFavorites": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "favorites": "Обране",
+  "history": "Історія",
+  "favoritesEmptyTitle": "Збережіть першу точку",
+  "favoritesEmptyMessage": "Торкніться зірочки на сторінці точки — і вона з'явиться тут.",
+  "openBody": "Відкрити частини тіла",
+  "historyEmptyTitle": "Історія порожня",
+  "historyEmptyMessage": "Тут з'являться точки, розділи й симптоми, які ви відкривали.",
+  "clearHistory": "Очистити історію",
+  "clearHistoryTitle": "Очистити історію переглядів?",
+  "clearHistoryMessage": "Список відкритих точок і розділів буде видалено з цього пристрою. Обране залишиться.",
+  "today": "Сьогодні",
+  "yesterday": "Вчора",
+  "earlier": "Раніше",
+  "historyTypeSegment": "Частина тіла",
+  "historyTypeSymptom": "Симптом",
+  "historyTypeTerm": "Термін словника",
+  "recentViews": "Нещодавні",
+  "showAll": "Усі",
+  "termsCount": "{count, plural, one{{count} термін} few{{count} терміни} many{{count} термінів} other{{count} терміна}}",
+  "@termsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

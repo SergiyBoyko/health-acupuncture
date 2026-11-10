@@ -115,6 +115,8 @@ void main() {
       final router = await openPointInBody(tester);
       expect(location(router), '/body/point/5M');
 
+      await tester.ensureVisible(find.text('2B'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('2B'));
       await tester.pumpAndSettle();
       expect(location(router), '/body/point/2B');
@@ -168,12 +170,14 @@ void main() {
     ) async {
       await tester.pumpRouterApp(initialLocation: '/body/segment/golova');
 
-      await tester.drag(find.byType(ListView), const Offset(0, -600));
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -600));
       await tester.pumpAndSettle();
-      final scrollable = find.descendant(
-        of: find.byType(SegmentScreen),
-        matching: find.byType(Scrollable),
-      );
+      final scrollable = find
+          .descendant(
+            of: find.byType(CustomScrollView),
+            matching: find.byType(Scrollable),
+          )
+          .first;
       final offset = tester.state<ScrollableState>(scrollable).position.pixels;
       expect(offset, greaterThan(0));
 
