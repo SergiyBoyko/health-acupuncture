@@ -219,24 +219,27 @@ app/
 
 `tools/build_atoms.py` доповнюється експортом `app/assets/content.json` і копіюванням малюнків.
 Одне джерело правди — `tools/data/*.txt`; і `atoms/`, і застосунок збираються з нього (R12.8).
-Малюнки для застосунку зменшуються до ≤ 1200 px по довшій стороні (зараз 7 МБ → орієнтовно 4–5 МБ).
+Малюнки обмежені 1200 px по довшій стороні; разом із `content.json` (310 КБ) ресурси займають 7 МБ.
 
 ### 5.2 Модель
 
 ```
-Segment   { id, title, sourcePages, overviewFigureIds[] }
+Segment   { id, title, sourceTitle, sourcePages, overviewFigureIds[], pointCodes[] }
 Point     { code, segmentId, title, somatic, sourcePage, order,
-            sections[ { heading?, text } ],       // сторони ліва/права = окремі секції
+            sections[ { headings[], paragraphs[] } ],   // сторони ліва/права = заголовки секцій
             notes[], transcriptionNotes[],
             figureIds[], relatedCodes[], symptomIds[] }
-Figure    { id, asset, kind: overview|detail, caption, sourcePage, pointCodes[], width, height }
+Figure    { id, asset, kind: overview|detail, caption, sourcePage, segmentId, pointCodes[], width, height }
+SymptomGroup { id, title }
 Symptom   { id, term, group?, handwritten,
-            refs[ { codes[], side?, together, qualifier?, resolved } ],
-            sourceLines[] }                        // рядки як надруковано
+            refs[ { alternative,                         // «или» відносно попереднього
+                    parts[ { kind: point|unknown|text,   // кілька parts = натискати разом («+»)
+                             codes[], pair, side?: left|right|both, qualifier?, label? } ] } ],
+            sourceLines[] }                              // рядки як надруковано
 GlossaryTerm { term, definition }
-Meta      { legend[], somaticCodes[], unresolvedCodes[] }
+Meta      { legend[], somaticCodes[], unresolvedCodes[], intro { sections[], figureIds[] }, source }
 ```
-Текст секцій зберігається з розміткою посилань (`[[12M]]`), яку рендерить один віджет `RichContentText`.
+Текст абзаців зберігається з розміткою посилань (`[[12M]]` або `[[S1|S1 правая]]`), яку рендерить один віджет `RichContentText`.
 
 Користувацькі дані (`user_store`):
 ```

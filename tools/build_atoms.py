@@ -18,7 +18,10 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "tools" / "data"
 PDF = ROOT / "document_source.pdf"
 OUT = ROOT / "atoms"
+APP = ROOT / "app"
+APP_ASSETS = APP / "assets"
 ZOOM = 3.0  # масштаб рендера при вирізанні малюнків
+MAX_SIDE = 1200  # найбільша сторона малюнка, px
 
 SEGMENTS = OrderedDict([
     ("vstup", dict(dir="00-vstup", title="Вступ", ru="Введение (фрагмент)", pages="3")),
@@ -104,6 +107,7 @@ def fig_file(f):
 TOKEN = re.compile(
     r"^(?P<code>JB1O|JB\d+|B8|S\d|[XХ]|[EЕ]|\d+½?)(?P<suf>MB|мВ|[MBМВмв])?\s*(?P<q>\(3и4\))?\s*"
     r"(?P<side>левая и правая|левая|правая)?(?P<rest>\s*\(.*\))?$")
+SIDES = {"левая": "left", "правая": "right", "левая и правая": "both"}
 OVERRIDE = {
     "S1правая,2,3,S1левая,2,3и56": "S1правая,S2правая,S3правая,S1левая,S2левая,S3левая,56",
     "Xлевая,правая,2B,32,61": "Xлевая,Xправая,2B,32,61",
@@ -134,9 +138,11 @@ def parse_codes(raw, points):
                         tail = "".join(" " + x.strip() for x in (m["q"], m["side"], m["rest"]) if x)
                         if m["q"]:
                             tail = tail.replace("(3и4)", "(3 и 4)")
-                        items.append(dict(ids=ids, tail=tail, pair=len(suf) == 2))
+                        items.append(dict(ids=ids, tail=tail, pair=len(suf) == 2, kind="point",
+                                          side=SIDES.get(m["side"]), q=m["q"], rest=(m["rest"] or "").strip() or None))
                         continue
-                items.append(dict(ids=[], tail=label, pair=False))
+                kind = "unknown" if re.search(r"\d|[A-Z]", label) else "text"
+                items.append(dict(ids=[], tail=label, pair=False, kind=kind, side=None, q=None, rest=None))
             out.append(dict(items=items, alt=ai > 0))
     return out
 
@@ -177,6 +183,152 @@ def render_codes(e, points, prefix):
     return ", ".join(chunks).replace(", или ", " или "), unresolved
 
 
+# ---------- експорт для застосунку ----------
+TRANSLIT = dict(zip("абвгдеёжзийклмнопрстуфхцчшщъыьэюяіїєґ",
+                    ["a", "b", "v", "g", "d", "e", "e", "zh", "z", "i", "y", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
+                     "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "i", "yi", "ye", "g"]))
+QUOTED = re.compile(r'"([0-9A-Z½]+(?: (?:правая|левая))?)"')
+
+
+def slug(text):
+    out = "".join(TRANSLIT.get(ch, ch) for ch in text.lower())
+    return re.sub(r"[^a-z0-9]+", "-", out).strip("-")
+
+
+def app_sections(p, points):
+    """Тіло точки -> секції {headings[], paragraphs[]} з розміткою [[КОД]] / [[КОД|підпис]]."""
+    related = []
+
+    def link(m):
+        label = m.group(1)
+        base = label.split(" ")[0]
+        if base in points and base != p["code"]:
+            if base not in related:
+                related.append(base)
+            return f'"[[{base}]]"' if label == base else f'"[[{base}|{label}]]"'
+        return m.group(0)
+
+    sections = [dict(headings=[], paragraphs=[])]
+    for line in p["body"]:
+        if line.startswith("### "):
+            if sections[-1]["paragraphs"]:
+                sections.append(dict(headings=[], paragraphs=[]))
+            sections[-1]["headings"].append(line[4:].strip())
+        else:
+            sections[-1]["paragraphs"].append(QUOTED.sub(link, line))
+    return sections, related
+
+
+def export_app(points, figs, index, gl):
+    errors = []
+    seg_order = [k for k in SEGMENTS if k != "vstup"]
+
+    def asset(f):
+        return f"assets/images/{SEGMENTS[f['segment']]['dir']}/{f['file']}"
+
+    # симптоми: об'єднання однакових термінів
+    symptoms, by_key, groups = [], {}, []
+    for e in index:
+        if e["kind"] == "group":
+            groups.append(dict(id=slug(e["term"]), title=e["term"]))
+            continue
+        group = slug(e["group"]) if e.get("group") else None
+        key = (group, e["term"].lower(), e["kind"] == "hand")
+        sym = by_key.get(key)
+        if sym is None:
+            sid = "--".join(x for x in (group, slug(e["term"])) if x) + ("--hand" if e["kind"] == "hand" else "")
+            if any(s["id"] == sid for s in symptoms):
+                errors.append(f"duplicate symptom id {sid}")
+            sym = dict(id=sid, term=e["term"], group=group, handwritten=e["kind"] == "hand", refs=[], sourceLines=[])
+            by_key[key] = sym
+            symptoms.append(sym)
+        line = e["raw"].rstrip(".")
+        if line not in sym["sourceLines"]:
+            sym["sourceLines"].append(line)
+        for c in e["codes"]:
+            parts = []
+            for it in c["items"]:
+                qual = " ".join(x for x in ((it["q"] or "").replace("(3и4)", "(3 и 4)"), it["rest"]) if x) or None
+                parts.append(dict(kind=it["kind"], codes=it["ids"], pair=it["pair"], side=it["side"], qualifier=qual,
+                                  label=None if it["kind"] == "point" else it["tail"].strip()))
+            ref = dict(parts=parts, alternative=c["alt"])
+            if ref not in sym["refs"]:
+                sym["refs"].append(ref)
+
+    symptom_ids = defaultdict(list)
+    unresolved = []
+    for s in symptoms:
+        for r in s["refs"]:
+            for part in r["parts"]:
+                if part["kind"] == "unknown":
+                    unresolved.append(dict(symptomId=s["id"], label=part["label"]))
+                for c in part["codes"]:
+                    if c not in points:
+                        errors.append(f"symptom {s['id']}: unknown point {c}")
+                    elif s["id"] not in symptom_ids[c]:
+                        symptom_ids[c].append(s["id"])
+
+    out_points = []
+    for order, (code, p) in enumerate(points.items()):
+        sections, related = app_sections(p, points)
+        ordered = sorted(p["figures"], key=lambda f: (f["kind"] == "overview", f["id"]))
+        out_points.append(dict(
+            code=code, segmentId=p["segment"], title=p["title"],
+            somatic=code in SOMATIC_LIST or "СОМАТИЧЕСК" in p["title"].upper(),
+            sourcePage=p["page"], order=order, sections=sections, notes=p["notes"], transcriptionNotes=p["fixes"],
+            figureIds=[f["id"] for f in ordered], relatedCodes=related, symptomIds=symptom_ids.get(code, [])))
+        for c in related:
+            if c not in points:
+                errors.append(f"point {code}: unknown related {c}")
+
+    fig_ids = {f["id"] for f in figs}
+    for p in out_points:
+        errors += [f"point {p['code']}: unknown figure {i}" for i in p["figureIds"] if i not in fig_ids]
+    for f in figs:
+        if not (APP / asset(f)).exists():
+            errors.append(f"figure {f['id']}: missing asset {asset(f)}")
+        if max(f["width"], f["height"]) > MAX_SIDE:
+            errors.append(f"figure {f['id']}: larger than {MAX_SIDE}px")
+
+    intro = [dict(headings=[], paragraphs=[])]
+    for block in INTRO.strip().split("\n\n"):
+        if block.startswith("## "):
+            intro.append(dict(headings=[block[3:].strip()], paragraphs=[]))
+        else:
+            intro[-1]["paragraphs"].append(block.strip())
+
+    content = dict(
+        version=1,
+        segments=[dict(id=k, title=SEGMENTS[k]["title"], sourceTitle=SEGMENTS[k]["ru"], sourcePages=SEGMENTS[k]["pages"],
+                       overviewFigureIds=[f["id"] for f in figs if f["segment"] == k and f["kind"] == "overview"],
+                       pointCodes=[c for c, p in points.items() if p["segment"] == k]) for k in seg_order],
+        points=out_points,
+        figures=[dict(id=f["id"], asset=asset(f), kind=f["kind"], caption=f["caption"], sourcePage=f["page"] + 2,
+                      segmentId=f["segment"], pointCodes=f["codes"], width=f["width"], height=f["height"]) for f in figs],
+        symptomGroups=groups,
+        symptoms=symptoms,
+        glossary=[dict(term=t.strip(), definition=d.strip()) for t, d in gl],
+        meta=dict(
+            legend=[dict(code="JB", meaning="челюстная кость"), dict(code="S", meaning="грудные контактные места"),
+                    dict(code="E", meaning="обработка уха"), dict(code="X", meaning="кровь"),
+                    dict(code="MB", meaning="парные точки")],
+            somaticCodes=SOMATIC_LIST, unresolvedCodes=unresolved,
+            intro=dict(sections=intro, figureIds=[f["id"] for f in figs if f["segment"] == "vstup"]),
+            source="«Интерес», периодическое издание Белоцерковского кооператива «Журналист», январь 1992 г."))
+
+    if errors:
+        sys.exit("content integrity errors:\n  " + "\n  ".join(errors))
+    APP_ASSETS.mkdir(parents=True, exist_ok=True)
+    (APP_ASSETS / "content.json").write_text(json.dumps(content, ensure_ascii=False, separators=(",", ":")),
+                                             encoding="utf-8")
+    size = sum(f.stat().st_size for f in APP_ASSETS.rglob("*") if f.is_file())
+    if size > 15 * 1024 * 1024:
+        sys.exit(f"app assets too large: {size / 1e6:.1f} MB")
+    print(f"app: content.json {((APP_ASSETS / 'content.json').stat().st_size) / 1024:.0f} KB, "
+          f"symptoms={len(symptoms)} (з {sum(e['kind'] != 'group' for e in index)} рядків), "
+          f"assets {size / 1e6:.1f} MB")
+
+
 # ---------- запис ----------
 def linkify(text, points, here_seg):
     def rep(m):
@@ -204,6 +356,8 @@ def main():
     (OUT / "kody").mkdir()
 
     # малюнки
+    if APP.exists() and (APP_ASSETS / "images").exists():
+        shutil.rmtree(APP_ASSETS / "images")
     doc = fitz.open(PDF)
     for f in figs:
         page = doc[f["page"] - 1]
@@ -212,8 +366,14 @@ def main():
         clip = fitz.Rect(x0 * k, y0 * k, x1 * k, y1 * k) & page.rect
         f["file"] = fig_file(f)
         f["rel"] = f"images/{f['file']}"
-        page.get_pixmap(matrix=fitz.Matrix(ZOOM, ZOOM), clip=clip).save(
-            OUT / SEGMENTS[f["segment"]]["dir"] / "images" / f["file"], jpg_quality=88)
+        zoom = min(ZOOM, MAX_SIDE / max(clip.width, clip.height))
+        pix = page.get_pixmap(matrix=fitz.Matrix(zoom, zoom), clip=clip)
+        f["width"], f["height"] = pix.width, pix.height
+        pix.save(OUT / SEGMENTS[f["segment"]]["dir"] / "images" / f["file"], jpg_quality=88)
+        if APP.exists():
+            dst = APP_ASSETS / "images" / SEGMENTS[f["segment"]]["dir"]
+            dst.mkdir(parents=True, exist_ok=True)
+            pix.save(dst / f["file"], jpg_quality=88)
         for c in f["codes"]:
             if c not in points:
                 sys.exit(f"figure {f['id']}: unknown point {c}")
@@ -346,6 +506,9 @@ def main():
               glossary=[dict(term=t.strip(), definition=d.strip()) for t, d in gl])
     shutil.copy(DATA / "README.atoms.md", OUT / "README.md")
     (OUT / "atoms.json").write_text(json.dumps(js, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    if APP.exists():
+        export_app(points, figs, index, gl)
 
     print(f"points={len(points)} figures={len(figs)} index_entries={sum(e['kind'] != 'group' for e in index)} "
           f"glossary={len(gl)}")

@@ -63,6 +63,16 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Згенеровано з tools/data командою `python tools/build_atoms.py` — не редагувати вручну.
+  assets:
+    - assets/content.json
+    - assets/images/00-vstup/
+    - assets/images/01-golova/
+    - assets/images/02-shyya/
+    - assets/images/03-tulub/
+    - assets/images/04-spyna/
+    - assets/images/05-ruky-nohy/
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
