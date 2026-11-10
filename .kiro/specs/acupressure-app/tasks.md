@@ -38,12 +38,12 @@
   - [x] 3.4 Тести: розбір реального `content.json`, кількості (5 сегментів, 119 точок, 131 фігура, 71 термін), усі assets існують
   - _Вимоги: R12.1, R12.8_
 
-- [ ] **4. Тема і базові віджети**
-  - [ ] 4.1 `AppTheme`: `ColorScheme.fromSeed(#2F6F62)` світла й темна, типографіка, форми, фіксовані кольори «папір» і «нотатка»
-  - [ ] 4.2 Платформні адаптації: `CupertinoPageTransitionsBuilder` для iOS, адаптивні діалоги й перемикачі
-  - [ ] 4.3 Віджети `core/widgets`: `CodeBadge` (активний / неактивний), `PaperImage`, `SectionHeader`, `EmptyState`, `PointListTile`
-  - [ ] 4.4 Локалізація: ARB `uk`, генерація, усі рядки інтерфейсу через `AppLocalizations`
-  - [ ] 4.5 Віджетні тести `CodeBadge` і `PointListTile` (у т. ч. зі збільшеним шрифтом 200 %)
+- [x] **4. Тема і базові віджети**
+  - [x] 4.1 `AppTheme`: `ColorScheme.fromSeed(#2F6F62)` світла й темна, типографіка, форми, фіксовані кольори «папір» і «нотатка»
+  - [x] 4.2 Платформні адаптації: `CupertinoPageTransitionsBuilder` для iOS, адаптивні діалоги й перемикачі
+  - [x] 4.3 Віджети `core/widgets`: `CodeBadge` (активний / неактивний), `PaperImage`, `SectionHeader`, `EmptyState`, `PointListTile`
+  - [x] 4.4 Локалізація: ARB `uk`, генерація, усі рядки інтерфейсу через `AppLocalizations`
+  - [x] 4.5 Віджетні тести `CodeBadge` і `PointListTile` (у т. ч. зі збільшеним шрифтом 200 %)
   - _Вимоги: R7.4, R12.4, R12.6_
 
 - [ ] **5. Навігаційний каркас**

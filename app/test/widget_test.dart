@@ -21,7 +21,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('Точки надавлювання'), findsOneWidget);
-    expect(find.textContaining('точок: 119'), findsOneWidget);
+    expect(find.text('119 точок'), findsOneWidget);
   });
 
   testWidgets('показує індикатор, поки вміст завантажується', (tester) async {

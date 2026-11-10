@@ -1,0 +1,35 @@
+{
+  "@@locale": "uk",
+  "appTitle": "Точки надавлювання",
+  "contentLoading": "Завантаження довідника",
+  "contentErrorTitle": "Не вдалося відкрити довідник",
+  "contentErrorMessage": "Дані застосунку пошкоджені. Спробуйте ще раз або перевстановіть застосунок.",
+  "retry": "Спробувати ще",
+  "pointsCount": "{count, plural, one{{count} точка} few{{count} точки} many{{count} точок} other{{count} точки}}",
+  "@pointsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pointSemantics": "Точка {code}",
+  "@pointSemantics": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "unknownPointSemantics": "Код {code}: такої точки в книзі немає",
+  "@unknownPointSemantics": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "somatic": "Соматична",
+  "inFavorites": "В обраному",
+  "imageUnavailable": "Малюнок недоступний"
+}
