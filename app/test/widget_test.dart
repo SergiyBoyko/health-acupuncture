@@ -3,16 +3,28 @@ import 'dart:async';
 import 'package:acupoints/app.dart';
 import 'package:acupoints/data/content_repository.dart';
 import 'package:acupoints/data/providers.dart';
+import 'package:acupoints/data/user/user_providers.dart';
 import 'package:acupoints/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/test_content.dart';
 
 void main() {
+  late SharedPreferences preferences;
+
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    preferences = await SharedPreferences.getInstance();
+  });
+
   Widget app(Future<ContentRepository> Function() load) => ProviderScope(
-    overrides: [contentRepositoryProvider.overrideWith((ref) => load())],
+    overrides: [
+      contentRepositoryProvider.overrideWith((ref) => load()),
+      sharedPreferencesProvider.overrideWithValue(preferences),
+    ],
     child: const AcupointsApp(),
   );
 
