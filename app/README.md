@@ -1,17 +1,93 @@
-# acupoints
+# Точки — довідник точок надавлювання
 
-Довідник точок надавлювання
+Офлайн-довідник на Flutter (iOS, Android; веб — пізніше) за матеріалом брошури 1992 року:
+5 частин тіла, 119 точок, 131 малюнок, покажчик симптомів (304 записи), словник (71 термін).
 
-## Getting Started
+Специфікація — у [`../.kiro/specs/acupressure-app/`](../.kiro/specs/acupressure-app/):
+`requirements.md`, `design.md`, `tasks.md`.
 
-This project is a starting point for a Flutter application.
+## Що вміє
 
-A few resources to get you started if this is your first Flutter project:
+- **Головна** — пошук, останні запити, нещодавно відкрите, частини тіла, словник.
+- **Тіло** — сегмент зі зведеними схемами, фільтром і порядком «як у книзі / за кодом».
+- **Точка** — малюнки, опис із клікабельними кодами, пов'язані точки, симптоми, рукописні нотатки.
+- **Малюнки на весь екран** — масштабування, гортання, перехід до позначених точок.
+- **Симптоми** — алфавітний покажчик із фільтром, групами та уточненнями (сторона, «натискати разом», «або»).
+- **Пошук** — коди, заголовки, описи, нотатки, симптоми, словник; приймає `12м` як `12M`.
+- **Збережене** — обране та історія переглядів за днями.
+- **Налаштування** — тема; застереження першого запуску.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Усе працює без мережі; історія та обране зберігаються лише на пристрої.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Середовище
+
+Версія Flutter закріплена через [fvm](https://fvm.app) у `.fvmrc` (3.44.0):
+
+```bash
+fvm use
+fvm flutter pub get
+```
+
+## Перевірки
+
+```bash
+fvm flutter analyze
+fvm flutter test
+```
+
+Тести працюють на справжньому вмісті (`assets/content.json`). Серед них:
+
+- `test/accessibility_test.dart` — цілі дотику, підписи для екранних читачів і контраст на всіх екранах в обох темах;
+- `test/golden_test.dart` — знімки Головної і сторінки точки. Еталони згенеровано на macOS; оновити:
+
+  ```bash
+  fvm flutter test --update-goldens test/golden_test.dart
+  ```
+
+Наскрізний сценарій на пристрої чи емуляторі (стирає дані користувача застосунку на ньому):
+
+```bash
+fvm flutter test integration_test/app_test.dart -d <пристрій>
+```
+
+## Запуск і збірка
+
+```bash
+fvm flutter run
+fvm flutter build apk
+fvm flutter build ios
+```
+
+Для iOS потрібен CocoaPods (його використовує плагін `shared_preferences`), для Android — прийняті ліцензії SDK
+(`fvm flutter doctor --android-licenses`).
+
+## Вміст
+
+`assets/content.json` і `assets/images/` **згенеровані** — не редагуйте їх вручну. Джерело правди — ручна транскрипція
+в `../tools/data/*.txt`; після правок перезберіть:
+
+```bash
+python ../tools/build_atoms.py   # потрібен пакет pymupdf
+```
+
+Скрипт оновлює і `../atoms/`, і ресурси застосунку та перевіряє цілісність посилань.
+
+## Структура
+
+```
+lib/
+  app.dart, main.dart      тема, локалізація, маршрутизація, застереження
+  core/                    тема, роутер, спільні віджети
+  data/                    моделі, ContentRepository, SearchIndex, сховище користувача
+  features/                home, body, point, viewer, symptoms, glossary, search, saved, settings, shell
+  l10n/                    рядки інтерфейсу (ARB) і згенерований код
+```
+
+Екрани точки, сегмента, симптому, пошуку тощо відкриваються у стеку тієї вкладки, з якої прийшли, тому їхні адреси
+мають префікс вкладки (`/point/12M`, `/body/point/12M`).
+
+## Стан
+
+- Ідентифікатор пакета `com.example.acupoints` і назва «Точки» — робочі; перед публікацією їх треба замінити.
+- Іконки застосунку та екрана запуску ще стандартні.
+- Адаптивний макет для планшетів і веба не зроблено.

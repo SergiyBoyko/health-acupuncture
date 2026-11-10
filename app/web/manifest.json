@@ -1,6 +1,6 @@
 {
-    "name": "acupoints",
-    "short_name": "acupoints",
+    "name": "Точки надавлювання",
+    "short_name": "Точки",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

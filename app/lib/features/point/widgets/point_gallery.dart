@@ -54,8 +54,13 @@ class _PointGalleryState extends State<PointGallery> {
                 horizontal: AppSpacing.screen,
               ),
               child: Semantics(
+                // Назва малюнка — на самій кнопці, щоб екранний читач
+                // озвучував, що саме відкриється.
+                image: true,
+                label: figures[index].caption,
                 button: widget.onFigureTap != null,
                 hint: widget.onFigureTap == null ? null : l10n.openFullscreen,
+                excludeSemantics: true,
                 child: GestureDetector(
                   onTap: widget.onFigureTap == null
                       ? null

@@ -200,8 +200,11 @@ class _OverviewGallery extends StatelessWidget {
           return SizedBox(
             width: width,
             child: Semantics(
+              image: true,
+              label: figure.caption,
               button: true,
               hint: context.l10n.openFullscreen,
+              excludeSemantics: true,
               child: GestureDetector(
                 onTap: () => onFigureTap(figure),
                 child: PaperImage(figure, padding: const EdgeInsets.all(6)),
